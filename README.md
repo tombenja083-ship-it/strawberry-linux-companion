@@ -1,4 +1,4 @@
-# An free AI platform like clade run on linux mint
+# Strawberry Linux Companion
 
 A Linux-friendly desktop AI browser companion inspired by the workflow of Strawberry Browser. This is an independent local project, not the proprietary Strawberry application.
 
@@ -27,7 +27,9 @@ Open Terminal and run:
 
 ```bash
 sudo apt update
-sudo apt install -y git nodejs npm
+sudo apt install -y ca-certificates curl git
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
 node --version
 npm --version
 git clone https://github.com/tombenja083-ship-it/strawberry-linux-companion.git
@@ -36,7 +38,15 @@ npm ci
 npm start
 ```
 
-Node.js 20 or newer is recommended. If `node --version` is lower than 20, install a current Node.js release first, then run the commands above again.
+Node.js 20 or newer is required for the supported setup. The NodeSource step above avoids the older `nodejs` package that may be provided by the default Linux Mint repositories. Do not run `npm start` with `sudo`.
+
+If the terminal reports an Electron sandbox error and no window opens, use this source-run workaround:
+
+```bash
+npm start -- --no-sandbox
+```
+
+Use `--no-sandbox` only for this local source-run workaround. The native Debian/AppImage builds should be preferred for everyday use.
 
 ## Run from source
 
