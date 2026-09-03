@@ -1,4 +1,4 @@
-# Strawberry Linux Companion
+# An free AI platform like clade run on linux mint
 
 A Linux-friendly desktop AI browser companion inspired by the workflow of Strawberry Browser. This is an independent local project, not the proprietary Strawberry application.
 
