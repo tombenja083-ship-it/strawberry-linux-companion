@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; frame-src https: http:; style-src 'self' 'unsafe-inline'; script-src 'self'; img-src 'self' data: https:;" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Strawberry Linux Companion</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-dot"></span><span>Strawberry</span><small>Linux Companion</small></div>
+    <form id="address-form" class="address-form">
+      <button type="button" class="nav-button" id="back-button" title="Back">‹</button>
+      <button type="button" class="nav-button" id="forward-button" title="Forward">›</button>
+      <input id="address" aria-label="Web address" value="https://www.google.com" />
+      <button class="go-button" type="submit">Go</button>
+    </form>
+    <button class="settings-button" id="google-button">Google</button>
+    <button class="settings-button" id="skills-button">Learn skill</button>
+    <button class="settings-button" id="settings-button">Settings</button>
+  </header>
+
+  <main class="workspace">
+    <section class="browser-panel">
+      <div class="panel-heading"><span>Browser</span><span id="page-status" class="muted">Ready</span></div>
+      <webview id="webview" src="https://www.google.com" allowpopups></webview>
+    </section>
+
+    <aside class="assistant-panel">
+      <div class="assistant-heading">
+        <div><h1>Companion</h1><p>Research, summarize, and act on what you find.</p></div>
+        <button id="clear-chat" class="ghost-button">Clear</button>
+      </div>
+      <section id="google-card" class="google-card" hidden>
+        <div class="google-card-heading"><div><h2>Google overview</h2><p id="google-account">Not connected</p></div><button id="refresh-google" class="ghost-button">Refresh</button></div>
+        <div id="google-content" class="google-content"></div>
+      </section>
+      <div id="chat" class="chat"></div>
+      <div class="context-row"><div><label><input id="page-context" type="checkbox" checked /> Page</label><label><input id="google-context" type="checkbox" /> Google</label><label><input id="skills-context" type="checkbox" checked /> Skills</label></div><span id="provider-label" class="muted">Demo mode</span></div>
+      <form id="chat-form" class="chat-form">
+        <textarea id="prompt" rows="3" placeholder="Ask about this page or draft something…"></textarea>
+        <div class="composer-footer"><span class="muted">Enter to send · Shift+Enter for a new line</span><button id="send-button" class="send-button" type="submit">Send</button></div>
+      </form>
+    </aside>
+  </main>
+
+  <dialog id="settings-dialog">
+    <form method="dialog" id="settings-form" class="settings-card">
+      <div class="dialog-heading"><div><h2>AI settings</h2><p>Choose a hosted or local OpenAI-compatible provider.</p></div><button value="cancel" class="close-button">×</button></div>
+      <label>Provider
+        <select id="provider"><option value="openai-compatible">OpenAI-compatible API</option><option value="ollama">Ollama (local)</option><option value="demo">Demo mode</option></select>
+      </label>
+      <label>Chat endpoint<input id="endpoint" placeholder="https://api.openai.com/v1/chat/completions" /></label>
+      <label>Model<input id="model" placeholder="gpt-4o-mini or llama3.2" /></label>
+      <label>API key (stored locally)<input id="api-key" type="password" autocomplete="off" /></label>
+      <label>Temperature<input id="temperature" type="number" min="0" max="2" step="0.1" /></label>
+      <div class="settings-section">
+        <h3>Google access <span>read-only</span></h3>
+        <p class="settings-note">Connect Gmail, Drive, and Calendar with read-only permissions. You need a Google OAuth Desktop client ID from Google Cloud Console.</p>
+        <label>Google OAuth Desktop client ID<input id="google-client-id" placeholder="1234567890-abc.apps.googleusercontent.com" /></label>
+        <div class="google-status-row"><span id="google-status">Not connected</span><div><button type="button" id="disconnect-google" class="secondary-button">Disconnect</button><button type="button" id="connect-google" class="primary-button">Connect Google</button></div></div>
+      </div>
+      <p class="settings-note">For Ollama, start Ollama first and use an OpenAI-compatible endpoint such as http://127.0.0.1:11434/v1/chat/completions. Never share your API key or config file.</p>
+      <div class="dialog-actions"><button value="cancel" class="secondary-button">Cancel</button><button id="save-settings" value="default" class="primary-button">Save settings</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="skills-dialog">
+    <form method="dialog" id="skills-form" class="skills-card">
+      <div class="dialog-heading"><div><h2>Skill Studio</h2><p>Learn from the current public page, draft a reusable skill, then review and approve it.</p></div><button value="cancel" class="close-button">×</button></div>
+      <label>What should the skill teach?
+        <input id="skill-topic" placeholder="e.g. Prepare a daily school status report" />
+      </label>
+      <div class="skill-library-heading"><h3>Approved local skills</h3><button type="button" id="refresh-skills" class="ghost-button">Refresh</button></div>
+      <div id="skill-library" class="skill-library"></div>
+      <label>Draft SKILL.md
+        <textarea id="skill-draft" rows="14" spellcheck="false" placeholder="The approved skill draft will appear here…"></textarea>
+      </label>
+      <div class="skill-source" id="skill-source">Source: current browser page</div>
+      <div id="skill-status" class="skill-status"></div>
+      <div class="dialog-actions"><button value="cancel" class="secondary-button">Close</button><button type="button" id="draft-skill" class="secondary-button">Learn from page</button><button type="button" id="save-skill" class="primary-button">Approve & save</button></div>
+    </form>
+  </dialog>
+  <script src="renderer.js"></script>
+</body>
+</html>
