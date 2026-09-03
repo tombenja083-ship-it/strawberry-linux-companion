@@ -24,7 +24,7 @@ jobs:
       - name: Run Electron startup smoke test
         run: xvfb-run -a npm run smoke
       - name: Build AppImage and Debian package
-        run: npm run dist
+        run: npm run dist -- --publish never
       - name: Upload Linux packages
         uses: actions/upload-artifact@v4
         with:
