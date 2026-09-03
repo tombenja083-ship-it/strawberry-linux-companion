@@ -21,11 +21,50 @@ A Linux-friendly desktop AI browser companion inspired by the workflow of Strawb
 - Node.js 20+ and npm
 - For local AI: Ollama and a downloaded model such as `llama3.2`
 
+## Install on Linux Mint from GitHub
+
+Open Terminal and run:
+
+```bash
+sudo apt update
+sudo apt install -y git nodejs npm
+node --version
+npm --version
+git clone https://github.com/tombenja083-ship-it/strawberry-linux-companion.git
+cd strawberry-linux-companion
+npm ci
+npm start
+```
+
+Node.js 20 or newer is recommended. If `node --version` is lower than 20, install a current Node.js release first, then run the commands above again.
+
 ## Run from source
 
 ```bash
-npm install
+npm ci
 npm start
+```
+
+## Build a native installer on Linux Mint
+
+```bash
+npm ci
+npm test
+npm run smoke
+npm run dist
+```
+
+Then install the Debian package:
+
+```bash
+sudo apt install ./dist/strawberry-linux-companion_0.1.0_amd64.deb
+```
+
+Or use the AppImage:
+
+```bash
+chmod +x ./dist/Strawberry-Linux-Companion-0.1.0.AppImage
+./dist/Strawberry-Linux-Companion-0.1.0.AppImage
 ```
 
 ## Configure AI
@@ -78,18 +117,6 @@ npm run smoke
 ```
 
 The GitHub Actions workflow runs both checks under a virtual Ubuntu/Linux display before building the AppImage and Debian package. For an exact Linux Mint test, run the same commands on the target Mint machine; this Windows development host does not have a Linux distribution installed.
-
-## Build an installable app on Linux Mint
-
-```bash
-npm install
-npm run dist
-```
-
-The resulting files are placed in `dist/`:
-
-- `*.AppImage` — portable Linux app; make executable with `chmod +x *.AppImage`
-- `*.deb` — Debian package; install with `sudo apt install ./file-name.deb`
 
 ## Build through GitHub Actions
 
